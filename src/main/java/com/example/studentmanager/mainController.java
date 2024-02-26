@@ -1,7 +1,6 @@
 package com.example.studentmanager;
 
 import com.example.studentmanager.*;
-// import com.example.studentmanager.studentStorage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,13 +28,6 @@ public class mainController {
 		SpringApplication.run(mainController.class, args);
     ss = new studentStorage();
 	}
-
-  @GetMapping("/")
-  public String home() {
-    String str = "hi brodie";
-    
-    return str;
-  }
 
   @PostMapping("/studentById/{id}") // add payload
   public String getStudentById(@PathVariable String id) {
