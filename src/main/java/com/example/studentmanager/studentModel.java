@@ -54,7 +54,7 @@ class studentStorage {
     }
     for (studentModel s : this.sm) {
       System.out.println(s.getStudentId() + " " + s.getName());
-      if (s.getStudentId() == id) {
+      if (s.getStudentId().equals(id)) {
         return s;
       }
     }

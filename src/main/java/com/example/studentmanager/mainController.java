@@ -44,9 +44,9 @@ public class mainController {
     if (sm == null) {
       return "No such student!" + ss.sm.size();
     }
-    str.append(sm.getName() + " " + sm.getUni());
+    str.append("Name: " + sm.getName() + "\nUniversity: " + sm.getUni());
     // @todo call the return students method
-    return str.toString();
+    return str.toString() + "\n";
   }
 
   @GetMapping("/studentByUni/{uni}")
@@ -55,11 +55,11 @@ public class mainController {
     if (sm == null) {
       return "No such student!";
     }
-    return sm.getName();
+    return sm.getName() + "\n";
   }
  
   @PostMapping("/addStudent/{name}/{age}/{aadhar}/{uni}")
-  public String addStudent(@PathVariable String name, String age, String aadhar, String uni) {
-    return "" + ss.addStudent(name, age, aadhar, uni);
+  public String addStudent(@PathVariable String name, @PathVariable String age, @PathVariable String aadhar, @PathVariable String uni) {
+    return "uid: " + ss.addStudent(name, age, aadhar, uni) + "\n";
   }
 }
