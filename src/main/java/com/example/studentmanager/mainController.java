@@ -37,20 +37,29 @@ public class mainController {
     return str;
   }
 
-  @GetMapping("/studentById") // add payload
-  public String getStudentById() {
+  @PostMapping("/studentById/{id}") // add payload
+  public String getStudentById(@PathVariable String id) {
     StringBuilder str = new StringBuilder();
-    studentModel sm = ss.returnStudentById(0);
+    studentModel sm = ss.returnStudentById(id);
     if (sm == null) {
-      return "No such student!";
+      return "No such student!" + ss.sm.size();
     }
     str.append(sm.getName() + " " + sm.getUni());
     // @todo call the return students method
     return str.toString();
   }
+
+  @GetMapping("/studentByUni/{uni}")
+  public String getStudentByUni(@PathVariable String uni) {
+    studentModel sm = ss.returnStudentById(uni);
+    if (sm == null) {
+      return "No such student!";
+    }
+    return sm.getName();
+  }
  
   @PostMapping("/addStudent/{name}/{age}/{aadhar}/{uni}")
-  public String addStudent(@PathVariable String name, int age, String aadhar, String uni) {
+  public String addStudent(@PathVariable String name, String age, String aadhar, String uni) {
     return "" + ss.addStudent(name, age, aadhar, uni);
   }
 }
