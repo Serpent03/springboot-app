@@ -1,7 +1,6 @@
 package com.example.studentmanager;
 
 import com.example.studentmanager.*;
-// import com.example.studentmanager.studentStorage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,32 +29,28 @@ public class mainController {
     ss = new studentStorage();
 	}
 
-  @GetMapping("/")
-  public String home() {
-    String str = "hi brodie";
-    
-    return str;
-  }
-
   @PostMapping("/studentById/{id}") // add payload
   public String getStudentById(@PathVariable String id) {
-    StringBuilder str = new StringBuilder();
     studentModel sm = ss.returnStudentById(id);
-    if (sm == null) {
-      return "No such student!" + ss.sm.size();
-    }
-    str.append("Name: " + sm.getName() + "\nUniversity: " + sm.getUni());
-    // @todo call the return students method
-    return str.toString() + "\n";
-  }
-
-  @GetMapping("/studentByUni/{uni}")
-  public String getStudentByUni(@PathVariable String uni) {
-    studentModel sm = ss.returnStudentById(uni);
     if (sm == null) {
       return "No such student!";
     }
-    return sm.getName() + "\n";
+    return "Name: " + sm.getName() + "\nAge: " + sm.getAge() + "\nAadhar: " + sm.getAadhar() + "\nUniversity: " + sm.getUni() + "\n";
+  }
+
+  @PostMapping("/studentByUni/{uni}")
+  public String getStudentByUni(@PathVariable String uni) {
+
+    StringBuilder str = new StringBuilder();
+    ArrayList<studentModel> sm = ss.returnStudentByUni(uni);
+
+    if (sm == null) {
+      return "No such student!";
+    }
+    for (studentModel s : sm) {
+      str.append("Name: ").append(s.getName()).append("\nAge: ").append(s.getAge()).append("\nAadhar: ").append(s.getAadhar()).append("\nUniversity: ").append(s.getUni()).append("\n");
+    }
+    return str.toString() + "\n";
   }
  
   @PostMapping("/addStudent/{name}/{age}/{aadhar}/{uni}")
