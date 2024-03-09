@@ -1,6 +1,7 @@
 package com.example.studentmanager;
 
-import com.example.studentmanager.*;
+import com.example.studentmanager.controllers.*;
+import com.example.studentmanager.model.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,50 +12,56 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 
 // add students
 // store students
 // get student by id
-// get student by uni
+// get students by uni
+
+// @todo what is necessary in production level code? 
+// -- unit testing
+// -- factory methods?
+// -- SOLID principle integration?
 
 @SpringBootApplication
 @RestController
 public class mainController {
-  static studentStorage ss;
+  static StudentStorage ss;
 
 	public static void main(String[] args) {
 		SpringApplication.run(mainController.class, args);
-    ss = new studentStorage();
+    ss = new StudentStorage();
 	}
 
-  @PostMapping("/studentById/{id}") // add payload
+  @GetMapping("/studentById/{id}") // add payload
   public String getStudentById(@PathVariable String id) {
-    studentModel sm = ss.returnStudentById(id);
+    StudentModel sm = ss.returnStudentById(id);
     if (sm == null) {
-      return "No such student!";
+      return "No such student!\n";
     }
     return "Name: " + sm.getName() + "\nAge: " + sm.getAge() + "\nAadhar: " + sm.getAadhar() + "\nUniversity: " + sm.getUni() + "\n";
   }
 
-  @PostMapping("/studentByUni/{uni}")
+  @GetMapping("/studentByUni/{uni}")
   public String getStudentByUni(@PathVariable String uni) {
 
     StringBuilder str = new StringBuilder();
-    ArrayList<studentModel> sm = ss.returnStudentByUni(uni);
+    ArrayList<StudentModel> sm = ss.returnStudentByUni(uni);
 
     if (sm == null) {
-      return "No such student!";
+      return "No such student!\n";
     }
-    for (studentModel s : sm) {
+    for (StudentModel s : sm) {
       str.append("Name: ").append(s.getName()).append("\nAge: ").append(s.getAge()).append("\nAadhar: ").append(s.getAadhar()).append("\nUniversity: ").append(s.getUni()).append("\n");
     }
     return str.toString() + "\n";
   }
  
-  @PostMapping("/addStudent/{name}/{age}/{aadhar}/{uni}")
-  public String addStudent(@PathVariable String name, @PathVariable String age, @PathVariable String aadhar, @PathVariable String uni) {
-    return "uid: " + ss.addStudent(name, age, aadhar, uni) + "\n";
+  @PostMapping("/addStudent")
+  public String addStudent(@RequestBody StudentModel Student) {
+    return "uid: " + ss.addStudent(Student) + "\n";
   }
 }
